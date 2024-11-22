@@ -1,7 +1,7 @@
 (function() {
   const scriptLog = (message, prefix, groupLogs) => {
     const logArgs = [
-      `%c${prefix ? prefix : '?'} %c[%cPortainer Proxy%c] %c${message}`, 
+      `%c${prefix ? prefix : 'ⓘ'} %c[%cPortainer Proxy%c] %c${message}`, 
       "color: orange; font-weight: bold;",
       "color: gray; font-weight: bold;",
       "color: cyan; font-weight: bold;",
@@ -31,11 +31,29 @@
     }
   };
 
-  scriptLog("Using block-element script", "?");
+  // Используем MutationObserver для мониторинга изменений на странице
+  const observer = new MutationObserver(() => {
+    blockElement();
+  });
 
-  // Применяем стили, когда документ будет загружен
-  document.addEventListener("DOMContentLoaded", blockElement);
-  // Применять стили при изменении URL
+  const config = {
+    childList: true, // наблюдаем за добавлением/удалением дочерних элементов
+    subtree: true // наблюдаем за всеми дочерними узлами
+  };
+
+  const initObserver = () => {
+    observer.observe(document.body, config);
+  };
+
+  scriptLog("Using block-element script with MutationObserver", "ツ");
+
+  // Применяем блокировку при загрузке страницы
+  document.addEventListener("DOMContentLoaded", () => {
+    blockElement();
+    initObserver(); // Запускаем MutationObserver для динамического отслеживания изменений
+  });
+
+  // Повторно применяем блокировку при изменении URL (SPA)
   window.addEventListener("popstate", blockElement);
   window.addEventListener("pushState", blockElement);
 })();
