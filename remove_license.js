@@ -33,9 +33,9 @@
 
   scriptLog("Using block-element script", "?");
 
-  // Apply styles when the document is ready
+  // Применяем стили, когда документ будет загружен
   document.addEventListener("DOMContentLoaded", blockElement);
-  // Apply styles on URL change (SPA)
+  // Применять стили при изменении URL
   window.addEventListener("popstate", blockElement);
   window.addEventListener("pushState", blockElement);
 })();
